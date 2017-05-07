@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camelContext id="threadPoolCamelContext" xmlns="http://camel.apache.org/schema/spring" threadNamePattern="Thread-Pool-Demo-#counter#">
+        <template id="producerTemplate" camelContextId="threadPoolCamelContext"/>
+
+        <threadPoolProfile id="demoThreadPool" poolSize="2" maxPoolSize="4" maxQueueSize="2"/>
+
+        <route id="threadPoolRoute1" customId="true" >
+            <from uri="direct:threadPoolSizeDemoRoute"/>
+            <multicast executorServiceRef="demoThreadPool">
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 1</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 2</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 3</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName"><simple> TH - 4</simple></setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 5</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 6</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName">
+                        <simple> TH - 7</simple>
+                    </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 8</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 9</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 10</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 11</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 12</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 13</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 14</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 15</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 16</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 17</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 18</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+
+                <pipeline>
+                    <setHeader headerName="dummyName"> <simple> TH - 19</simple> </setHeader>
+                    <log message="Thread Started -> ${header.dummyName} -> ${date:now:HH:mm:ss.SSS}"/><to uri="direct:logThreadName"/>
+                </pipeline>
+            </multicast>
+            <!--<delay>
+                <constant>5000</constant>
+            </delay>
+            <log message="Thread Pool END"/>-->
+        </route>
+
+        <route id="threadLogRoute" customId="true">
+            <from uri="direct:logThreadName"/>
+            <!--<log message="Logging message from thread ${threadName} &#45;&#45; ${header.dummyName}"/>-->
+            <delay>
+                <constant>60000</constant>
+            </delay>
+        </route>
+
+
+    </camelContext>
+
+</beans>

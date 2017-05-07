@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="splitAggregation" class="com.cyorg.splitter.SplitAggregationStrategy"/>
+
+    <camelContext id="splitterCamelContext" xmlns="http://camel.apache.org/schema/spring">
+        <template id="producerTemplate" camelContextId="splitterCamelContext"/>
+
+        <route id="simpleSplitterRoute" customId="true">
+            <from uri="direct:startSimpleSplitRoute"/>
+            <split>
+                <simple>${body}</simple>
+                <log message="Split index -> ${in.header.CamelSplitIndex} ;; split Body -> ${body}"/>
+            </split>
+            <log message="Final Body-> ${body}"/>
+            <log message="Body Type -> ${body.class}"/>
+        </route>
+
+        <route id="parallelSplitterRoute" customId="true">
+            <from uri="direct:startParallelSplitRoute"/>
+            <split parallelProcessing="true">
+                <simple>${body}</simple>
+                <log message="Split index -> ${in.header.CamelSplitIndex} ;; split Body -> ${body}"/>
+            </split>
+            <log message="Final -> ${body}"/>
+            <log message="Body Type -> ${body.class}"/>
+        </route>
+
+        <route id="parallelAggSplitterRoute" customId="true">
+            <from uri="direct:startParallelAggSplitRoute"/>
+            <split parallelProcessing="true" strategyRef="splitAggregation">
+                <simple>${body}</simple>
+                <log message="Split index -> ${in.header.CamelSplitIndex} ;; split Body -> ${body}"/>
+            </split>
+            <log message="Final -> ${body}"/>
+            <log message="Body Type -> ${body.class}"/>
+        </route>
+
+    </camelContext>
+
+</beans>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="multicastProcessor1" class="com.cyorg.multicast.MulticastProcessor1"/>
+    <bean id="multicastProcessor2" class="com.cyorg.multicast.MulticastProcessor2"/>
+    <bean id="multicastAggregator" class="com.cyorg.multicast.MulticastAggregationStrategy"/>
+
+    <camelContext id="multicastCamelContext" xmlns="http://camel.apache.org/schema/spring">
+        <template id="producerTemplate" camelContextId="multicastCamelContext"/>
+
+        <route id="simpleMulticastRoute" customId="true">
+            <from uri="direct:simpleMulticastRoute"/>
+            <multicast>
+                <process ref="multicastProcessor1"/>
+                <process ref="multicastProcessor2"/>
+            </multicast>
+            <log message="Final Body -> ${body}"/>
+            <log message="Body Type  -> ${body.class}"/>
+        </route>
+
+        <route id="parallelMulticastRoute" customId="true">
+            <from uri="direct:parallelMulticastRoute"/>
+            <multicast parallelProcessing="true">
+                <process ref="multicastProcessor1"/>
+                <process ref="multicastProcessor2"/>
+            </multicast>
+            <log message="Final Body -> ${body}"/>
+            <log message="Body Type  -> ${body.class}"/>
+        </route>
+
+        <route id="exceptionMulticastRoute" customId="true">
+            <from uri="direct:exceptionMulticastRoute"/>
+            <multicast stopOnException="true">
+                <process ref="multicastProcessor1"/>
+                <process ref="multicastProcessor2"/>
+            </multicast>
+            <log message="Final Body -> ${body}"/>
+            <log message="Body Type  -> ${body.class}"/>
+        </route>
+
+
+        <route id="streamingMulticastRoute" customId="true">
+            <from uri="direct:streamingMulticastRoute"/>
+            <multicast strategyRef="multicastAggregator" streaming="true" parallelProcessing="true" >
+                <process ref="multicastProcessor1"/>
+                <process ref="multicastProcessor2"/>
+            </multicast>
+            <log message="Final Body -> ${body}"/>
+            <log message="Body Type  -> ${body.class}"/>
+        </route>
+
+    </camelContext>
+
+</beans>
